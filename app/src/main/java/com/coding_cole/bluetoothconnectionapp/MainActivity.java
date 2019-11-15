@@ -1,11 +1,14 @@
 package com.coding_cole.bluetoothconnectionapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -37,19 +40,50 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+
+        //noinspection SimplifiableIfStatement
+        switch (id) {
+            case R.id.menu_paired:
+
+                // open a new intent and activity that has a list of paired items
+                break;
+
+            case R.id.menu_scan:
+
+                /*
+                 * check if bluetooth is on
+                 * if turned off, turn on
+                 * if turned on, open scanActivity to run scan
+                 */
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void bluetoothOFF() {
         btnOFF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mBluetoothAdapter.disable()) {
-
-                    Toast.makeText(getApplicationContext(), "Bluetooth already turned off", Toast.LENGTH_SHORT).show();
-
-                }
                 if (mBluetoothAdapter.isEnabled()) {
                     mBluetoothAdapter.disable();
                     Toast.makeText(getApplicationContext(), "Bluetooth is turned off", Toast.LENGTH_SHORT).show();
+                } else if(mBluetoothAdapter.disable()) {
+
+                    Toast.makeText(getApplicationContext(), "Bluetooth is already turned off", Toast.LENGTH_SHORT).show();
+
                 }
+
             }
         });
     }
@@ -64,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
                     
                 } else {
 
-                    if (!mBluetoothAdapter.isEnabled()) {
+                    if (mBluetoothAdapter.isEnabled()) {
+
+                        Toast.makeText(getApplicationContext(), "Bluetooth already turned on", Toast.LENGTH_SHORT).show();
+                    } else if (!mBluetoothAdapter.isEnabled()) {
 
                         startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_CODE);
                     }

@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         btnOFF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mBluetoothAdapter == null) {
+                if(mBluetoothAdapter.disable()) {
 
-                    Toast.makeText(getApplicationContext(), "Sorry Bluetooth is not supprted on this Device", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Bluetooth already turned off", Toast.LENGTH_SHORT).show();
 
                 }
                 if (mBluetoothAdapter.isEnabled()) {

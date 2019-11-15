@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Bluetooth Connection App</string>
+    <string name="bluetooth_off">Bluetooth off</string>
+    <string name="bluetooth_on">Bluetooth ON</string>
+</resources>

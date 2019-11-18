@@ -43,8 +43,8 @@ public class ScanActivity extends BaseActivity {
 			@Override
 			public void onClick(View view) {
 				mAdapter.startDiscovery();
-//				IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-//				registerReceiver(mReciver, intentFilter);
+				IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+				registerReceiver(mReciver, intentFilter);
 			}
 		});
 
@@ -60,6 +60,7 @@ public class ScanActivity extends BaseActivity {
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 				mAdapter.getName();
 				stringArrayList.add(device.getName());
+
 				arrayAdapter.notifyDataSetChanged();
 			}
 

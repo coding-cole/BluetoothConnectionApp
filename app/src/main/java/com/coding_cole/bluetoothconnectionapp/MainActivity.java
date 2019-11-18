@@ -83,7 +83,10 @@ public class MainActivity extends BaseActivity {
         btnOFF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBluetoothAdapter.isEnabled()) {
+                if(mBluetoothAdapter == null) {
+
+                    Toast.makeText(getApplicationContext(), "Sorry Bluetooth is not supprted on this Device", Toast.LENGTH_SHORT).show();
+                } else if (mBluetoothAdapter.isEnabled()) {
                     mBluetoothAdapter.disable();
                     Toast.makeText(getApplicationContext(), "Bluetooth is turned off", Toast.LENGTH_SHORT).show();
                 } else if(mBluetoothAdapter.disable()) {
@@ -103,7 +106,7 @@ public class MainActivity extends BaseActivity {
                 if(mBluetoothAdapter == null) {
 
                     Toast.makeText(getApplicationContext(), "Sorry Bluetooth is not supprted on this Device", Toast.LENGTH_SHORT).show();
-                    
+
                 } else {
 
                     if (mBluetoothAdapter.isEnabled()) {
@@ -136,83 +139,5 @@ public class MainActivity extends BaseActivity {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

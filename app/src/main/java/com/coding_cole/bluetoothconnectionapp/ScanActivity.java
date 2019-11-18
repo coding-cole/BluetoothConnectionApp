@@ -32,36 +32,53 @@ public class ScanActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_scan);
-		fab = (FloatingActionButton) findViewById(R.id.fab);
 		scanListView = (ListView) findViewById(R.id.scan_list);
 
 		activateToolbar(true);
 
-
+		fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				mAdapter.startDiscovery();
+				if (mAdapter.isDiscovering()) {
+					mAdapter.cancelDiscovery();
+
+					mAdapter.startDiscovery();
+					IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+					registerReceiver(mReciver, intentFilter);
+					arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
+					scanListView.setAdapter(arrayAdapter);
+				}
 			}
 		});
 
-		IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-		registerReceiver(mReciver, intentFilter);
 
-		arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
-		scanListView.setAdapter(arrayAdapter);
 	}
 
-	BroadcastReceiver mReciver = new BroadcastReceiver() {
+	private final BroadcastReceiver mReciver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
 				stringArrayList.add(device.getName());
 				arrayAdapter.notifyDataSetChanged();
 			}
 
+		}
+	};
+
+	private final BroadcastReceiver receiver = new BroadcastReceiver() {
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+				// Discovery has found a device. Get the BluetoothDevice
+				// object and its info from the Intent.
+				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				String deviceName = device.getName();
+				String deviceHardwareAddress = device.getAddress(); // MAC address
+			}
 		}
 	};
 

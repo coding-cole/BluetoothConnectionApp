@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     Button btnON, btnOFF;
     BluetoothAdapter mBluetoothAdapter;
@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        activateToolbar(false);
+
 
         btnON = findViewById(R.id.btON);
         btnOFF = findViewById(R.id.btOFF);
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_paired:
 
                 // open a new intent and activity that has a list of paired items
+                Intent pairedIntent = new Intent(this, PairedDevicesActivity.class);
+                startActivity(pairedIntent);
                 break;
 
             case R.id.menu_scan:
@@ -65,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
                  * if turned off, turn on
                  * if turned on, open scanActivity to run scan
                  */
-                break;
+	            Intent scanIntent = new Intent(this, ScanActivity.class);
+	            startActivity(scanIntent);
+	            break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + id);
         }
 
         return super.onOptionsItemSelected(item);

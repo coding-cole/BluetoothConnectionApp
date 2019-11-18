@@ -2,4 +2,6 @@
     <string name="app_name">Bluetooth Connection App</string>
     <string name="bluetooth_off">Bluetooth off</string>
     <string name="bluetooth_on">Bluetooth ON</string>
+    <string name="title_activity_paired_devices">Paired DevicesActivity</string>
+    <string name="title_activity_scan">Scan Activity</string>
 </resources>

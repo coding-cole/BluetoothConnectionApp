@@ -36,25 +36,20 @@ public class ScanActivity extends BaseActivity {
 		scanListView = (ListView) findViewById(R.id.scan_list);
 
 		activateToolbar(true);
+        mAdapter = BluetoothAdapter.getDefaultAdapter();
 
 		fab = (FloatingActionButton) findViewById(R.id.fab);
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if(mAdapter == null) {
-					Toast.makeText(ScanActivity.this, "mAdapter == null", Toast.LENGTH_SHORT).show();
-					mAdapter = BluetoothAdapter.getDefaultAdapter();
-				}
-				mAdapter.cancelDiscovery();
-
 				mAdapter.startDiscovery();
-				IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-				registerReceiver(mReciver, intentFilter);
+//				IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+//				registerReceiver(mReciver, intentFilter);
 			}
 		});
 
-//		arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
-//		scanListView.setAdapter(arrayAdapter);
+		arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1);
+		scanListView.setAdapter(arrayAdapter);
 	}
 
 	BroadcastReceiver mReciver = new BroadcastReceiver() {
@@ -63,6 +58,7 @@ public class ScanActivity extends BaseActivity {
 			String action = intent.getAction();
 			if (BluetoothDevice.ACTION_FOUND.equals(action)) {
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+				mAdapter.getName();
 				stringArrayList.add(device.getName());
 				arrayAdapter.notifyDataSetChanged();
 			}
